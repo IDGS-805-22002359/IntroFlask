@@ -1,0 +1,39 @@
+{% extends 'layout.html' %} {% block contenido %}
+<div class="col-12">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in lista %}
+            <tr>
+                <td>
+                    <img
+                        class="img-fluid img-thumbnail mx-auto d-block"
+                        src="{{producto.imagen}}"
+                        alt="{{producto.nombre}}"
+                    />
+                </td>
+                <td>{{producto.nombre}}</td>
+                <td>$ {{producto.precio}}</td>
+                <td>
+                    <button
+                        class="btn btn-outline-secondary"
+                    >
+                        Editar
+                    </button>
+                    <button class="btn btn-outline-danger">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
