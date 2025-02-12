@@ -1,0 +1,30 @@
+{% extends 'layout.html' %} 
+
+{% block contenido %}
+<form action="/calculadora" method="POST" class="container mt-5">
+    <div class="mb-3">
+        <label for="num1" class="form-label">Número 1</label>
+        <input type="number" class="form-control" id="num1" name="num1" value="{{ num1 }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="operador" class="form-label">Operación</label>
+        <select class="form-select" id="operador" name="operador" required>
+            <option value="+" {% if operacion == '+' %}selected{% endif %}>+</option>
+            <option value="-" {% if operacion == '-' %}selected{% endif %}>-</option>
+            <option value="x" {% if operacion == 'x' %}selected{% endif %}>x</option>
+            <option value="/" {% if operacion == '/' %}selected{% endif %}>/</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="num2" class="form-label">Número 2</label>
+        <input type="number" class="form-control" id="num2" name="num2" value="{{ num2 }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Calcular</button>
+</form>
+
+{% if resultado is not none and num1 is not none and num2 is not none %}
+<div class="mt-3">
+    <h3>Resultado: {{ resultado }}</h3>
+</div>
+{% endif %}
+{% endblock %}

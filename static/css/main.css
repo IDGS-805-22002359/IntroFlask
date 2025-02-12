@@ -1,0 +1,15 @@
+.bg-cinepolis {
+    background-color: #1961B7;
+}
+
+.btn-cinepolis {
+    background-color: #F2BC1B;
+    border-color: #F2BC1B;
+    font: bold;
+}
+
+.btn-cinepolis:hover {
+    background-color: #F2BC1B;
+    border-color: #F2BC1B;
+    font: bold;
+}

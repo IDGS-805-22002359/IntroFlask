@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from servicio import Servicio
 
 app = Flask(__name__)
 
@@ -58,6 +59,47 @@ def formulario():
             <input type="submit" value="Enviar">
         </form>
     '''
+
+@app.route('/calculadora')
+def calculadora():
+    return render_template('calculadora.html', num1=0.0, num2=0.0, operacion='+', resultado=None)
+
+@app.route('/calculadora', methods=['POST'])
+def calcular():
+    num1 = float(request.form['num1'])
+    num2 = float(request.form['num2'])
+    operacion = request.form['operador']
+    resultado = None
+    if operacion == '+':
+        resultado = num1 + num2
+    elif operacion == '-':
+        resultado = num1 - num2
+    elif operacion == 'x':
+        resultado = num1 * num2
+    elif operacion == '/':
+        resultado = num1 / num2
+    return render_template('calculadora.html', num1=num1, num2=num2, operacion=operacion, resultado=resultado)
+
+@app.route('/cinepolis')
+def cinepolis():
+    return render_template('cinepolis.html', nombre='', compradores=None, tarjeta='no', boletos=None, total=None, error='')
+
+@app.route('/cinepolis', methods=['POST'])
+def total():
+    nombre = request.form['nombre']
+    compradores = int(request.form['compradores'])
+    tarjeta = request.form['tarjeta']
+    boletos = int(request.form['boletos'])
+    
+    max_boletos = 7 * compradores
+    if boletos > max_boletos:
+        error = 'No hay suficientes boletos, por favor modifique la cantidad de boletos o la cantidad de compradores'
+        return render_template('cinepolis.html', nombre=nombre, compradores=compradores, tarjeta=tarjeta, boletos=boletos, total=None, error=error)
+
+    servicio = Servicio(boletos, compradores, tarjeta)
+    total = servicio.calcular_total()
+
+    return render_template('cinepolis.html', nombre=nombre, compradores=compradores, tarjeta=tarjeta, boletos=boletos, total=total, error='')
 
 if __name__ == '__main__':
     app.run(debug = True, port = 3000) 
