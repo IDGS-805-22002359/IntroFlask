@@ -1,39 +1,18 @@
-{% extends 'layout.html' %} {% block contenido %}
-<div class="col-12">
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in lista %}
-            <tr>
-                <td>
-                    <img
-                        class="img-fluid img-thumbnail mx-auto d-block"
-                        src="{{producto.imagen}}"
-                        alt="{{producto.nombre}}"
-                    />
-                </td>
-                <td>{{producto.nombre}}</td>
-                <td>$ {{producto.precio}}</td>
-                <td>
-                    <button
-                        class="btn btn-outline-secondary"
-                    >
-                        Editar
-                    </button>
-                    <button class="btn btn-outline-danger">
-                        Eliminar
-                    </button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+{% extends 'layout.html' %}
+
+{% block contenido %}
+<div class="col-12 mt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Bienvenido a IDGS805 - Intro Flask</h1>
+        <p class="lead">Este proyecto es una introducción al desarrollo web utilizando el framework Flask de Python.</p>
+        <hr class="my-4">
+        <p>En esta aplicación, encontrarás varias funcionalidades que te ayudarán a entender cómo construir aplicaciones web con Flask.</p>
+        <ul>
+            <li><strong>Calculadora:</strong> Una simple calculadora para realizar operaciones básicas.</li>
+            <li><strong>Cinépolis:</strong> Una simulación de compra de boletos de cine.</li>
+            <li><strong>Productos:</strong> Un listado de productos con opciones para editar y eliminar.</li>
+            <li><strong>Alumnos:</strong> Un formulario con Flask-WTF y macros para agregar alumnos.</li>
+        </ul>
+    </div>
 </div>
 {% endblock %}

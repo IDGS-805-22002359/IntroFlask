@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block contenido %}
+{% import "_macros.html" as macros %}
+<div class="col-12 d-flex align-items-center justify-content-center">
+    <form action="/alumnos" method="POST">
+        {{ macros.campo(field=formulario.matricula) }}
+        {{ macros.campo(field=formulario.nombre) }}
+        {{ macros.campo(field=formulario.apellidos) }}
+        {{ macros.campo(field=formulario.email) }}
+        {{ macros.campo(field=formulario.password) }}
+        <button type="submit" class="btn btn-success w-100">Enviar</button>
+    </form>
+</div>
+{% endblock %}

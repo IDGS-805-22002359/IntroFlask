@@ -1,15 +1,19 @@
 from flask import Flask, render_template, request
 from servicio import Servicio
+import formularios
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    titulo = 'IDGS805 - Intro Flask'
+    return render_template('index.html')
+
+@app.route('/productos')
+def productos():
     productos = [
         {'nombre': 'THE MONSTERS - Have a Seat Vinyl Plush Blind Box', 'precio': 1200.0, 'imagen': 'https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1720579884288____dada____.png?x-oss-process=image/format,webp'},
     ]
-    return render_template('index.html', titulo = titulo, lista = productos)
+    return render_template('productos.html', lista = productos)
 
 @app.route('/ejemplo1')
 def ejemplo1():
@@ -100,6 +104,17 @@ def total():
     total = servicio.calcular_total()
 
     return render_template('cinepolis.html', nombre=nombre, compradores=compradores, tarjeta=tarjeta, boletos=boletos, total=total, error='')
+
+@app.route('/alumnos', methods=['GET', 'POST'])
+def alumnos():
+    alumno = formularios.Alumno(request.form)
+    if request.method == 'POST':
+        matricula = alumno.matricula.data
+        nombre = alumno.nombre.data
+        apellidos = alumno.apellidos.data
+        email = alumno.email.data
+        password = alumno.password.data
+    return render_template('alumnos.html', formulario=alumno)
 
 if __name__ == '__main__':
     app.run(debug = True, port = 3000) 
