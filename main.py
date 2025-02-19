@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from servicio import Servicio
+import servicios
 import formularios
 
 app = Flask(__name__)
@@ -100,21 +100,43 @@ def total():
         error = 'No hay suficientes boletos, por favor modifique la cantidad de boletos o la cantidad de compradores'
         return render_template('cinepolis.html', nombre=nombre, compradores=compradores, tarjeta=tarjeta, boletos=boletos, total=None, error=error)
 
-    servicio = Servicio(boletos, compradores, tarjeta)
+    servicio = servicios.Cinepolis(boletos, compradores, tarjeta)
     total = servicio.calcular_total()
 
     return render_template('cinepolis.html', nombre=nombre, compradores=compradores, tarjeta=tarjeta, boletos=boletos, total=total, error='')
 
 @app.route('/alumnos', methods=['GET', 'POST'])
 def alumnos():
-    alumno = formularios.Alumno(request.form)
-    if request.method == 'POST':
-        matricula = alumno.matricula.data
-        nombre = alumno.nombre.data
-        apellidos = alumno.apellidos.data
-        email = alumno.email.data
-        password = alumno.password.data
-    return render_template('alumnos.html', formulario=alumno)
+    formulario = formularios.Alumno(request.form)
+    if request.method == 'POST' and formulario.validate():
+        alumno = {
+            'matricula': formulario.matricula.data, 
+            'nombre': formulario.nombre.data, 
+            'apellidos': formulario.apellidos.data, 
+            'email': formulario.email.data, 
+            'password': formulario.password.data
+            }
+    else:
+        alumno = None
+    return render_template('alumnos.html', formulario=formulario, alumno=alumno)
+
+@app.route('/zodiaco', methods=['GET', 'POST'])
+def zodiaco():
+    formulario = formularios.Zodiaco(request.form)
+    if request.method == 'POST' and formulario.validate():
+        zodiaco = {
+            'nombre': formulario.nombre.data, 
+            'apellido_paterno': formulario.apellido_paterno.data, 
+            'apellido_materno': formulario.apellido_materno.data, 
+            'fecha_nacimiento': formulario.fecha_nacimiento.data
+            }
+        
+        servicio = servicios.Zodiaco(zodiaco['fecha_nacimiento'].strftime('%Y-%m-%d'))
+        zodiaco['edad'] = servicio.calcular_edad()
+        zodiaco['signo'] = servicio.calcular_signo()
+    else:
+        zodiaco = None
+    return render_template('zodiaco.html', formulario=formulario, zodiaco=zodiaco)
 
 if __name__ == '__main__':
     app.run(debug = True, port = 3000) 

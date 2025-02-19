@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block contenido %}
+{% import "_macros.html" as macros %}
+<div class="col-12 d-flex align-items-center justify-content-center mb-5">
+    <form action="/zodiaco" method="POST" novalidate>
+        <h1 class="text-center fw-bold mb-5">¡Cálcula tu Zodiaco Chino!</h1>
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    {{ macros.campo(field=formulario.nombre, class='form-control') }}
+                </div>
+                <div class="mb-3">
+                    {{ macros.campo(field=formulario.apellido_paterno, class='form-control') }}
+                </div>
+                <div class="mb-3">
+                    {{ macros.campo(field=formulario.apellido_materno, class='form-control') }}
+                </div>
+                <div class="mb-3">
+                    {{ macros.campo(field=formulario.fecha_nacimiento, class='form-control') }}
+                </div>
+                <div class="mb-3">
+                    {{ macros.campo(field=formulario.sexo, class='') }}
+                </div>
+            </div>
+            {% if zodiaco is not none %}
+            <div class="col-6">
+                <div class="mb-3">
+                    <p>
+                        Hola,
+                        <span class="fw-bold">
+                            {{ zodiaco.nombre + ' ' + zodiaco.apellido_paterno + ' ' + zodiaco.apellido_materno }}
+                        </span>
+                        .
+                    </p>
+                </div>
+                <div class="mb-3 text-center">
+                    <p>
+                        Tienes
+                        <span class="fw-bold">
+                            {{ zodiaco.edad }}
+                        </span>
+                        años.
+                    </p>
+                    <p>
+                        Tu animal espiritual es
+                        <span class="fw-bold">
+                            {{ zodiaco.signo.animal }}
+                        </span>
+                        .
+                    </p>
+                    <img src="{{'/static/img/' + zodiaco.signo.imagen}}" class="img-fluid img-thumbnail mx-auto d-block" alt="{{ zodiaco.signo.animal }}">
+                </div>
+
+            </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-dark w-100">Enviar</button>
+    </form>
+</div>
+{% endblock %}
